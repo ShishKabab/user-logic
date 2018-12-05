@@ -67,13 +67,15 @@ If you want to do more advanced stuff, you can construct custom nodes:
 
 ```
 const customLogic = new UserLogic({definition: {'if': [true', 'True!', 'False!']}, operations: {
-    const [condition, ifTrue, ifFalse] = definition.map(parse)
-    return {
-        evaluate: context => {
-            if (condition.evaluate(context)) {
-                return ifTrue.evaluate(context)
-            } else {
-                return ifFalse.evaluate(context)
+    ifNode: ({definition, parse}) => {
+        const [condition, ifTrue, ifFalse] = definition.map(parse)
+        return {
+            evaluate: context => {
+                if (condition.evaluate(context)) {
+                    return ifTrue.evaluate(context)
+                } else {
+                    return ifFalse.evaluate(context)
+                }
             }
         }
     }

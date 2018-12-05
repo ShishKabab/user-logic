@@ -1,7 +1,7 @@
 {
   "name": "user-logic",
   "version": "0.0.1",
-  "description": "Data-driven logic for ulta-configurable applications",
+  "description": "Data-driven logic for ultra-configurable applications",
   "main": "lib/index.js",
   "typings": "lib/index",
   "scripts": {
