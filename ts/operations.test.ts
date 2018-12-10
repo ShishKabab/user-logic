@@ -69,4 +69,12 @@ describe('UserLogic operations', () => {
         test({'map': [['one', 'two'], "`${map.value}!`"]}, {}, ['one!', 'two!'])
         test({'map': [{'literal': {'first': 'one', 'second': 'two'}}, "`${map.key} ${map.value}!`"]}, {}, {'first': 'first one!', 'second': 'second two!'})
     })
+
+    it('should do split', () => {
+        test({'split': ['one two', ' ']}, {}, ['one', 'two'])
+    })
+
+    it('should do join', () => {
+        test({'join': [['one', 'two'], ' ']}, {}, 'one two')
+    })
 })

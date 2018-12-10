@@ -15,7 +15,10 @@
   },
   "keywords": [
     "data-driven",
-    "logic"
+    "json",
+    "yaml",
+    "logic",
+    "jsonlogic"
   ],
   "author": "Vincent den Boer",
   "dependencies": {

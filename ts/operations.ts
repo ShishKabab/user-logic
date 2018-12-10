@@ -29,6 +29,8 @@ export const DEFAULT_OPERATIONS : {[name : string] : LogicNodeCreator} = {
         return evaluated.substr(0, 1).toUpperCase() + evaluated.substr(1)
     }),
     concat: binaryOperation((left : () => string, right : () => string) => left() + right()),
+    split: complexOperation(([value, separator] : [() => string, () => string]) => value().split(separator())),
+    join: complexOperation(([value, separator] : [() => string[], () => string]) => value().join(separator())),
 }
 
 export type LogicNodeCreator = ({definition, parse, reportLookup}) => LogicNode
@@ -94,6 +96,15 @@ export function ifNode({definition, parse}) {
     }
 }
 
+export function complexOperation(evaluate : (values : Array<() => any>) => any) : LogicNodeCreator {
+    return ({definition, parse}) => {
+        const nodes = definition.map(parse)
+        return {
+            evaluate: (context) => evaluate(nodes.map(node => () => node.evaluate(context)))
+        }
+    }
+}
+
 export function unaryOperation(evaluate : (value : () => any) => any) : LogicNodeCreator {
     return ({definition, parse}) => {
         const node = parse(definition)
@@ -105,7 +116,7 @@ export function unaryOperation(evaluate : (value : () => any) => any) : LogicNod
 
 export function binaryOperation(evaluatePair : (left : any, right : any) => any) {
     return ({definition, parse}) => {
-        const nodes = definition.map(nodeDefinition => parse(nodeDefinition))
+        const nodes = definition.map(parse)
         return {
             evaluate: (context) => {
                 let left = () => nodes[0].evaluate(context)
